@@ -1,14 +1,7 @@
-import './App.css'
-import { useTranslation } from 'react-i18next'
+import Routes from 'src/routes'
 
 function App() {
-  const {t} = useTranslation()
-
-  return (
-    <>
-      <h1>{t('greetings')}</h1>
-    </>
-  )
+    return <Routes />
 }
 
 export default App

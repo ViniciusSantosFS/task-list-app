@@ -1,12 +1,11 @@
-import './index.css'
-import './i18n'
+import 'src/i18n'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
+import App from 'src/App.tsx'
 import { Provider } from 'react-redux'
-import createStore from './redux/store.ts'
+import createStore from 'src/redux/store.ts'
 import { ThemeProvider } from '@mui/material/styles'
-import { theme } from './themes'
+import { theme } from 'src/themes'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
