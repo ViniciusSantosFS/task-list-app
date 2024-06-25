@@ -6,6 +6,20 @@ const resources = {
         translation: {
             greetings: 'Olá mundo!',
             addbutton: 'Cadastar tarefa',
+            taskForm: {
+                register: 'Cadastrar tarefa',
+                submit: 'Cadastrar',
+                requiredField: 'Esse campo é obrigatório',
+                title: 'Título',
+                type: 'Tipo',
+                owner: 'Responsável',
+                description: 'Descrição',
+                beginDate: 'Data de início',
+                endDate: 'Data de término',
+                deliveryDate: 'Data de conclusão',
+                isWeekendError:
+                    'Não é possivel cadastrar tarefas para finais de semana',
+            },
         },
     },
 }
