@@ -1,14 +1,26 @@
+import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, MenuItem, Typography } from '@mui/material'
+import { Button, MenuItem } from '@mui/material'
 import { taskSchema } from './schema'
-import { FormContainer, Input } from './task-form.styles'
+import {
+    FormContainer,
+    FormHeaderContainer,
+    Input,
+    Title,
+} from './task-form.styles'
 import HelperText from '../helper-text'
+import { CreateTask } from 'src/dto/create-task'
+import { CreateTaskActionTypes } from 'src/redux/sagas/create-task/action-types'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { useNavigate } from 'react-router-dom'
 
 const TaskForm = () => {
     const { t } = useTranslation()
     const translate = (key: string) => t(`taskForm.${key}`)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const {
         control,
@@ -23,16 +35,34 @@ const TaskForm = () => {
         ),
     })
 
-    const onSubmit = (data: unknown) => {
-        console.log(data)
-        // Handle form submission
+    const onSubmit = (data: CreateTask) => {
+        const task = new CreateTask(
+            data.title,
+            data.type,
+            data.owner,
+            data.description,
+            data.beginDate,
+            data.endDate,
+            data.deliveryDate
+        )
+        dispatch({ type: CreateTaskActionTypes.CREATE_TASK, payload: task })
     }
 
     return (
-        <FormContainer component="form" onSubmit={handleSubmit(onSubmit)}>
-            <Typography variant="h5" gutterBottom>
-                {translate('register')}
-            </Typography>
+        <FormContainer
+            component="form"
+            onSubmit={handleSubmit((data: unknown) =>
+                onSubmit(data as CreateTask)
+            )}
+        >
+            <FormHeaderContainer>
+                <Button onClick={() => navigate('/')}>
+                    <ArrowBackIcon color={'primary'} fontWeight="bold" />
+                </Button>
+                <Title variant="h5" color={'primary'}>
+                    {translate('register')}
+                </Title>
+            </FormHeaderContainer>
             <Controller
                 name="title"
                 control={control}
@@ -123,7 +153,7 @@ const TaskForm = () => {
                 )}
             />
             <Controller
-                name="finishDate"
+                name="endDate"
                 control={control}
                 defaultValue=""
                 render={({ field }) => (
@@ -133,9 +163,9 @@ const TaskForm = () => {
                         variant="outlined"
                         type="date"
                         InputLabelProps={{ shrink: true }}
-                        error={!!errors.finishDate}
+                        error={!!errors.endDate}
                         helperText={
-                            <HelperText message={errors.finishDate?.message} />
+                            <HelperText message={errors.endDate?.message} />
                         }
                     />
                 )}

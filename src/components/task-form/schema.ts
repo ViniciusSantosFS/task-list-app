@@ -20,7 +20,7 @@ export const taskSchema = ({ requiredField, isWeekendError }: Messages) =>
         beginDate: z.string().min(1, requiredField).refine(isWeekday, {
             message: isWeekendError,
         }),
-        finishDate: z.string().min(1, requiredField).refine(isWeekday, {
+        endDate: z.string().min(1, requiredField).refine(isWeekday, {
             message: isWeekendError,
         }),
         deliveryDate: z.string().min(1, requiredField).refine(isWeekday, {
