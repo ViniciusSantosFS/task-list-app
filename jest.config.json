@@ -1,0 +1,27 @@
+{
+    "preset": "ts-jest",
+    "testEnvironment": "jest-environment-jsdom",
+    "transform": {
+        "^.+\\.tsx?$": "ts-jest"
+    },
+    "moduleNameMapper": {
+        "^src/(.*)$": "<rootDir>/src/$1"
+    },
+    "moduleDirectories": [
+        "node_modules",
+        "src"
+    ],
+    "modulePaths": [
+        "<rootDir>/src",
+        "node_modules"
+    ],
+    "roots": [
+        "<rootDir>/src",
+        "<rootDir>/__test__"
+    ],
+    "globals": {
+        "ts-jest": {
+            "tsconfig": "tsconfig.app.json"
+        }
+    }
+}
