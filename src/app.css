@@ -1,0 +1,9 @@
+.app-container {
+    margin: 2em 20rem;
+}
+
+@media (max-width: 768px) {
+    .app-container {
+        margin: 2em 1rem;
+    }
+}
