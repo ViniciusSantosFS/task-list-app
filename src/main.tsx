@@ -1,9 +1,9 @@
 import 'src/i18n'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from 'src/App.tsx'
+import App from 'src/App'
 import { Provider } from 'react-redux'
-import createStore from 'src/redux/store.ts'
+import createStore from 'src/redux/store'
 import { ThemeProvider } from '@mui/material/styles'
 import { theme } from 'src/themes'
 
