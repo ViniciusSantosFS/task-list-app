@@ -5,7 +5,6 @@ export const FormContainer = styled(Box)`
     display: flex;
     flex-direction: column;
     gap: 2;
-    max-width: 400px;
     margin: auto;
     margin-top: 6px;
 `
