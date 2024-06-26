@@ -9,6 +9,16 @@ export const ModalContainer = styled(Box)`
     padding-top: 2em;
     background-color: ${({ theme }) => theme.palette.background.paper};
     border-radius: 2%;
+
+    @media (max-width: 1000px) {
+        margin: 2em 2em;
+        padding: 5em 2em;
+    }
+
+    @media (max-width: 480px) {
+        margin: 2em 1em;
+        padding: 3em 1em;
+    }
 `
 
 export const HeaderContainer = styled(Box)`
