@@ -37,6 +37,7 @@ const TaskForm = () => {
             taskSchema({
                 requiredField: translate('requiredField'),
                 isWeekendError: translate('isWeekendError'),
+                invalidEmail: translate('invalidEmail'),
             })
         ),
     })
