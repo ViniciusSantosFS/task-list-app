@@ -12,14 +12,14 @@ const rootReducer = (state = initialState, action: AnyAction) => {
     if (action.type === CreateTaskActionTypes.CREATE_TASK_SUCCESS) {
         return {
             ...state,
-            tasks: state.tasks.push(action.payload),
+            tasks: [...state.tasks, action.payload],
         }
     }
 
     if (action.type === CreateUserActionTypes.CREATE_USER_SUCCESS) {
         return {
             ...state,
-            users: state.users.push(action.payload),
+            users: [...state.users, action.payload],
         }
     }
 
