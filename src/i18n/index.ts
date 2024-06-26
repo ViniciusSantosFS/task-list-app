@@ -4,8 +4,9 @@ import { initReactI18next } from 'react-i18next'
 const resources = {
     'pt-BR': {
         translation: {
-            greetings: 'Olá mundo!',
+            tasksTitle: 'LISTA DE TAREFAS',
             addbutton: 'Cadastar tarefa',
+            filterByDate: 'Filtrar por data',
             taskForm: {
                 register: 'Cadastrar tarefa',
                 submit: 'Cadastrar',
