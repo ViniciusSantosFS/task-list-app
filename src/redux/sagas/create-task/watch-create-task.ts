@@ -13,9 +13,9 @@ interface CreateTaskAction {
 }
 
 const isBeginDateBiggerThanOtherDates = (
-    beginDate: Date,
-    endDate: Date,
-    deliveryDate: Date
+    beginDate: string,
+    endDate: string,
+    deliveryDate: string
 ) => {
     return isBefore(endDate, beginDate) || isBefore(deliveryDate, beginDate)
 }
