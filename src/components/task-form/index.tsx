@@ -117,9 +117,10 @@ const TaskForm = () => {
                                 <HelperText message={errors.type?.message} />
                             }
                         >
-                            <MenuItem value="Task">Task</MenuItem>
-                            <MenuItem value="Bug">Bug</MenuItem>
                             <MenuItem value="Feature">Feature</MenuItem>
+                            <MenuItem value="Bug">Bug</MenuItem>
+                            <MenuItem value="Task">Documentation</MenuItem>
+                            <MenuItem value="Task">Question</MenuItem>
                         </Input>
                     )}
                 />
