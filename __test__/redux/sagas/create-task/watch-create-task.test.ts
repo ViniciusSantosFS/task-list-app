@@ -4,6 +4,7 @@ import { AnyAction, Saga, runSaga } from 'redux-saga'
 import { CreateTaskActionTypes } from 'src/redux/sagas/create-task/action-types'
 import { CreateTask } from 'src/dto/create-task'
 import { CreateUser } from 'src/dto/create-user'
+import { Task } from 'src/entity/task'
 
 describe('#createTask', () => {
     it('Should fail when task has begin date is bigger than end date or delivery date', async () => {
@@ -122,10 +123,12 @@ describe('#createTask', () => {
             payload: mockTask,
         }).toPromise()
 
+        const expectedTask = new Task({ ...mockTask, ownerName: mockUser.name })
+
         expect(dispatchedActions).toEqual([
             {
                 type: CreateTaskActionTypes.CREATE_TASK_SUCCESS,
-                payload: mockTask,
+                payload: expectedTask,
             },
         ])
     })

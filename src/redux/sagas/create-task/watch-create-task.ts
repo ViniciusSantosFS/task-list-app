@@ -4,6 +4,7 @@ import { isBefore } from 'date-fns'
 import { CreateTaskActionTypes } from './action-types'
 import { InitialState } from 'src/redux/types'
 import { CreateUser } from 'src/dto/create-user'
+import { Task } from 'src/entity/task'
 
 interface CreateTaskAction {
     type: string
@@ -70,7 +71,10 @@ export function* createTask({ payload }: CreateTaskAction) {
             return
         }
 
-        yield put({ type: CreateTaskActionTypes.CREATE_TASK_SUCCESS, payload })
+        yield put({
+            type: CreateTaskActionTypes.CREATE_TASK_SUCCESS,
+            payload: new Task({ ...payload, ownerName: user.name }),
+        })
     } catch (error) {
         console.log('ERROR', error)
     }

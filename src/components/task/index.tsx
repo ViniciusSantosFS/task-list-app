@@ -3,23 +3,16 @@ import { Box, Checkbox, IconButton } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { Container, Description, Title } from './task.styles'
+import { Task as EntityTask } from 'src/entity/task'
 
 interface Props {
-    title: string
-    description: string
-    owner: string
+    task: EntityTask
     onChangeCheckBox: () => void
     onClickEdit: () => void
     onClickDelete: () => void
 }
 
-const Task = ({
-    title,
-    description,
-    owner,
-    onClickEdit,
-    onClickDelete,
-}: Props) => {
+const Task = ({ task, onClickEdit, onClickDelete }: Props) => {
     const [checked, setChecked] = useState(false)
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,10 +24,10 @@ const Task = ({
             <Checkbox color="primary" onChange={onChange} value={checked} />
             <Box flex={1}>
                 <Title variant="h6" flexGrow={1} checked={checked}>
-                    {title}
+                    {task.title}
                 </Title>
                 <Description checked={checked}>
-                    {owner}-{description}
+                    {task.ownerName}-{task.description}
                 </Description>
             </Box>
             <IconButton size="small" color="default" onClick={onClickEdit}>
