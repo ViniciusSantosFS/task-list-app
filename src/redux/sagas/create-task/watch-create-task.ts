@@ -1,3 +1,4 @@
+import uuid from 'react-native-uuid'
 import { put, select, takeLatest } from 'redux-saga/effects'
 import { CreateTask } from 'src/dto/create-task'
 import { isBefore } from 'date-fns'
@@ -73,7 +74,11 @@ export function* createTask({ payload }: CreateTaskAction) {
 
         yield put({
             type: CreateTaskActionTypes.CREATE_TASK_SUCCESS,
-            payload: new Task({ ...payload, ownerName: user.name }),
+            payload: new Task({
+                ...payload,
+                id: uuid.v4().toString(),
+                ownerName: user.name,
+            }),
         })
     } catch (error) {
         console.log('ERROR', error)

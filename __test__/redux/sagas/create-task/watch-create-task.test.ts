@@ -5,6 +5,7 @@ import { CreateTaskActionTypes } from 'src/redux/sagas/create-task/action-types'
 import { CreateTask } from 'src/dto/create-task'
 import { CreateUser } from 'src/dto/create-user'
 import { Task } from 'src/entity/task'
+import uuid from 'react-native-uuid'
 
 describe('#createTask', () => {
     it('Should fail when task has begin date is bigger than end date or delivery date', async () => {
@@ -97,6 +98,9 @@ describe('#createTask', () => {
     })
 
     it('Should create a task with success', async () => {
+        const id = '123'
+        jest.spyOn(uuid, 'v4').mockReturnValue(id)
+
         const email = faker.internet.email()
         const dispatchedActions: AnyAction[] = []
 
@@ -123,7 +127,11 @@ describe('#createTask', () => {
             payload: mockTask,
         }).toPromise()
 
-        const expectedTask = new Task({ ...mockTask, ownerName: mockUser.name })
+        const expectedTask = new Task({
+            ...mockTask,
+            id,
+            ownerName: mockUser.name,
+        })
 
         expect(dispatchedActions).toEqual([
             {

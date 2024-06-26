@@ -1,4 +1,5 @@
 interface ITask {
+    id: string
     title: string
     type: string
     ownerName: string
@@ -9,6 +10,7 @@ interface ITask {
 }
 
 export class Task {
+    id: string
     title: string
     type: string
     ownerName: string
@@ -16,8 +18,10 @@ export class Task {
     beginDate: Date
     endDate: Date
     deliveryDate: Date
+    done: boolean
 
     constructor({
+        id,
         title,
         type,
         ownerName,
@@ -26,6 +30,7 @@ export class Task {
         endDate,
         deliveryDate,
     }: ITask) {
+        this.id = id
         this.title = title
         this.type = type
         this.ownerName = ownerName
@@ -33,5 +38,6 @@ export class Task {
         this.beginDate = beginDate
         this.endDate = endDate
         this.deliveryDate = deliveryDate
+        this.done = false
     }
 }
