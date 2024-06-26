@@ -14,14 +14,19 @@ import HelperText from '../helper-text'
 import { CreateTask } from 'src/dto/create-task'
 import { CreateTaskActionTypes } from 'src/redux/sagas/create-task/action-types'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import AddIcon from '@mui/icons-material/Add'
 import { useNavigate } from 'react-router-dom'
-import React from 'react'
+import React, { useState } from 'react'
+import RegisterUserModal from '../register-owner-modal'
+import { CreateUser } from 'src/dto/create-user'
 
 const TaskForm = () => {
     const { t } = useTranslation()
     const translate = (key: string) => t(`taskForm.${key}`)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const [isModalOpen, setIsModalOpen] = useState(false)
 
     const {
         control,
@@ -49,6 +54,11 @@ const TaskForm = () => {
         dispatch({ type: CreateTaskActionTypes.CREATE_TASK, payload: task })
     }
 
+    const onRegisterUser = (data: CreateUser) => {
+        const user = new CreateUser(data.name, data.email)
+        dispatch({ type: 'CREATE_USER', payload: user })
+    }
+
     return (
         <FormContainer
             component="form"
@@ -56,6 +66,11 @@ const TaskForm = () => {
                 onSubmit(data as CreateTask)
             )}
         >
+            <RegisterUserModal
+                open={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onSubmit={onRegisterUser}
+            />
             <FormHeaderContainer>
                 <Button onClick={() => navigate('/')}>
                     <ArrowBackIcon color={'primary'} fontWeight="bold" />
@@ -63,6 +78,9 @@ const TaskForm = () => {
                 <Title variant="h5" color={'primary'}>
                     {translate('register')}
                 </Title>
+                <Button onClick={() => setIsModalOpen(true)}>
+                    <AddIcon />
+                </Button>
             </FormHeaderContainer>
             <Controller
                 name="title"
@@ -108,7 +126,7 @@ const TaskForm = () => {
                 render={({ field }) => (
                     <Input
                         {...field}
-                        label={translate('owner')}
+                        label={translate('ownerEmail')}
                         variant="outlined"
                         error={!!errors.owner}
                         helperText={
@@ -192,7 +210,7 @@ const TaskForm = () => {
                 )}
             />
             <Button type="submit" variant="contained" color="primary">
-                {t('taskForm.submit')}
+                {translate('submit')}
             </Button>
         </FormContainer>
     )
