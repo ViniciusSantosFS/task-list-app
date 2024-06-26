@@ -1,32 +1,81 @@
-import { put, takeLatest } from 'redux-saga/effects'
+import { put, select, takeLatest } from 'redux-saga/effects'
 import { CreateTask } from 'src/dto/create-task'
 import { isBefore } from 'date-fns'
 import { CreateTaskActionTypes } from './action-types'
+import { InitialState } from 'src/redux/types'
+import { CreateUser } from 'src/dto/create-user'
 
 interface CreateTaskAction {
     type: string
     payload: CreateTask
 }
 
+const isBeginDateBiggerThanOtherDates = (
+    beginDate: Date,
+    endDate: Date,
+    deliveryDate: Date
+) => {
+    return isBefore(endDate, beginDate) || isBefore(deliveryDate, beginDate)
+}
+
 export function* createTask({ payload }: CreateTaskAction) {
     try {
         if (
-            !isBefore(payload.beginDate, payload.endDate) ||
-            !isBefore(payload.beginDate, payload.deliveryDate)
+            isBeginDateBiggerThanOtherDates(
+                payload.beginDate,
+                payload.endDate,
+                payload.deliveryDate
+            )
         ) {
             yield put({
                 type: CreateTaskActionTypes.CREATE_TASK_FAILURE,
-                payload: {
-                    message: 'begindDate lesser than endDate or deliveryDate',
-                },
+                payload: {},
             })
+            return
         }
-        yield put({ type: CreateTaskActionTypes.CREATE_TASK_SUCCESS })
+
+        const users: CreateUser[] = yield select(
+            (state: InitialState) => state.users
+        )
+
+        const user = users.find(({ email }) => email === payload.owner)
+
+        if (!user) {
+            yield put({
+                type: CreateTaskActionTypes.CREATE_TASK_FAILURE,
+                payload: {},
+            })
+            return
+        }
+
+        const tasks: CreateTask[] = yield select(
+            (state: InitialState) => state.tasks
+        )
+
+        const usersTask = tasks.filter((task) => task.owner === user.email)
+
+        const hasTaskWithDateConflict = usersTask.find((task) => {
+            return (
+                task.beginDate === payload.beginDate ||
+                task.endDate === payload.endDate ||
+                task.deliveryDate === payload.deliveryDate
+            )
+        })
+
+        if (hasTaskWithDateConflict) {
+            yield put({
+                type: CreateTaskActionTypes.CREATE_TASK_FAILURE,
+                payload: {},
+            })
+            return
+        }
+
+        yield put({ type: CreateTaskActionTypes.CREATE_TASK_SUCCESS, payload })
     } catch (error) {
         console.log('ERROR', error)
     }
 }
 
 export function* watchCreateTask() {
-    yield takeLatest('CREATE_TASK', createTask)
+    yield takeLatest(CreateTaskActionTypes.CREATE_TASK, createTask)
 }
