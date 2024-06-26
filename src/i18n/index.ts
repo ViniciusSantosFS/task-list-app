@@ -7,6 +7,7 @@ const resources = {
             tasksTitle: 'LISTA DE TAREFAS',
             addbutton: 'Cadastar tarefa',
             filterByDate: 'Filtrar por data',
+            delivery: 'Prazo',
             taskForm: {
                 register: 'Cadastrar tarefa',
                 submit: 'Cadastrar',
