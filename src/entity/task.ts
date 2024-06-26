@@ -4,9 +4,9 @@ interface ITask {
     type: string
     ownerName: string
     description: string
-    beginDate: Date
-    endDate: Date
-    deliveryDate: Date
+    beginDate: string
+    endDate: string
+    deliveryDate: string
 }
 
 export class Task {
@@ -15,9 +15,9 @@ export class Task {
     type: string
     ownerName: string
     description: string
-    beginDate: Date
-    endDate: Date
-    deliveryDate: Date
+    beginDate: string
+    endDate: string
+    deliveryDate: string
     done: boolean
 
     constructor({

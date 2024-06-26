@@ -8,7 +8,7 @@ import { Task } from 'src/entity/task'
 import uuid from 'react-native-uuid'
 
 describe('#createTask', () => {
-    it('Should fail when task has begin date is bigger than end date or delivery date', async () => {
+    it('Should fail when task has begin date bigger than end date or delivery date', async () => {
         const dispatchedActions: AnyAction[] = []
 
         const mockTask = new CreateTask(
@@ -16,9 +16,9 @@ describe('#createTask', () => {
             faker.lorem.words(),
             faker.internet.email(),
             faker.lorem.words(),
-            faker.date.future(),
-            faker.date.past(),
-            faker.date.past()
+            faker.date.future().toDateString(),
+            faker.date.past().toDateString(),
+            faker.date.past().toDateString()
         )
 
         const fakeStore = {
@@ -45,9 +45,9 @@ describe('#createTask', () => {
             faker.lorem.words(),
             email,
             faker.lorem.words(),
-            faker.date.past(),
-            faker.date.future(),
-            faker.date.future()
+            faker.date.past().toDateString(),
+            faker.date.future().toDateString(),
+            faker.date.future().toDateString()
         )
 
         const fakeStore = {
@@ -75,9 +75,9 @@ describe('#createTask', () => {
             faker.lorem.words(),
             faker.internet.email(),
             faker.lorem.words(),
-            faker.date.past(),
-            faker.date.future(),
-            faker.date.future()
+            faker.date.past().toDateString(),
+            faker.date.future().toDateString(),
+            faker.date.future().toDateString()
         )
 
         const fakeStore = {
@@ -110,9 +110,9 @@ describe('#createTask', () => {
             faker.lorem.words(),
             email,
             faker.lorem.words(),
-            faker.date.past(),
-            faker.date.future(),
-            faker.date.future()
+            faker.date.past().toDateString(),
+            faker.date.future().toDateString(),
+            faker.date.future().toDateString()
         )
 
         const fakeStore = {

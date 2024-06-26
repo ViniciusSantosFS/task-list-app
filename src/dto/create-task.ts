@@ -4,8 +4,8 @@ export class CreateTask {
         public type: string,
         public owner: string,
         public description: string,
-        public beginDate: Date,
-        public endDate: Date,
-        public deliveryDate: Date
+        public beginDate: string,
+        public endDate: string,
+        public deliveryDate: string
     ) {}
 }
