@@ -1,33 +1,22 @@
-import { useDispatch } from 'react-redux'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useForm, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, MenuItem } from '@mui/material'
 import { taskSchema } from './schema'
-import {
-    FormContainer,
-    FormHeaderContainer,
-    Input,
-    Title,
-} from './task-form.styles'
+import { FormContainer, Input } from './task-form.styles'
 import HelperText from '../helper-text'
 import { CreateTask } from 'src/dto/create-task'
-import { CreateTaskActionTypes } from 'src/redux/sagas/create-task/action-types'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import AddIcon from '@mui/icons-material/Add'
-import { useNavigate } from 'react-router-dom'
-import React, { useState } from 'react'
-import RegisterUserModal from '../register-owner-modal'
-import { CreateUser } from 'src/dto/create-user'
-import { CreateUserActionTypes } from 'src/redux/sagas/create-user/action-types'
+import { Task } from 'src/entity/task'
 
-const TaskForm = () => {
+interface Props {
+    task?: Task
+    onSubmit: (task: CreateTask) => void
+}
+
+const TaskForm = ({ task, onSubmit }: Props) => {
     const { t } = useTranslation()
     const translate = (key: string) => t(`taskForm.${key}`)
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-
-    const [isModalOpen, setIsModalOpen] = useState(false)
 
     const {
         control,
@@ -43,58 +32,18 @@ const TaskForm = () => {
         ),
     })
 
-    const onSubmit = (data: CreateTask) => {
-        const task = new CreateTask(
-            data.title,
-            data.type,
-            data.owner,
-            data.description,
-            data.beginDate,
-            data.endDate,
-            data.deliveryDate
-        )
-
-        dispatch({
-            type: CreateTaskActionTypes.CREATE_TASK,
-            payload: task,
-            navigate,
-        })
-    }
-
-    const onRegisterUser = (data: CreateUser) => {
-        const user = new CreateUser(data.name, data.email)
-        dispatch({ type: CreateUserActionTypes.CREATE_USER, payload: user })
-        setIsModalOpen(false)
-    }
-
     return (
         <>
-            <RegisterUserModal
-                open={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                onSubmit={onRegisterUser}
-            />
             <FormContainer
                 component="form"
                 onSubmit={handleSubmit((data: unknown) =>
                     onSubmit(data as CreateTask)
                 )}
             >
-                <FormHeaderContainer>
-                    <Button onClick={() => navigate('/')}>
-                        <ArrowBackIcon color={'primary'} fontWeight="bold" />
-                    </Button>
-                    <Title variant="h5" color={'primary'}>
-                        {translate('register')}
-                    </Title>
-                    <Button onClick={() => setIsModalOpen(true)}>
-                        <AddIcon />
-                    </Button>
-                </FormHeaderContainer>
                 <Controller
                     name="title"
                     control={control}
-                    defaultValue=""
+                    defaultValue={task?.title ?? ''}
                     render={({ field }) => (
                         <Input
                             {...field}
@@ -110,7 +59,7 @@ const TaskForm = () => {
                 <Controller
                     name="type"
                     control={control}
-                    defaultValue=""
+                    defaultValue={task?.type ?? ''}
                     render={({ field }) => (
                         <Input
                             {...field}
@@ -148,7 +97,7 @@ const TaskForm = () => {
                 <Controller
                     name="description"
                     control={control}
-                    defaultValue=""
+                    defaultValue={task?.description ?? ''}
                     render={({ field }) => (
                         <Input
                             {...field}
@@ -168,7 +117,7 @@ const TaskForm = () => {
                 <Controller
                     name="beginDate"
                     control={control}
-                    defaultValue=""
+                    defaultValue={task?.beginDate ?? ''}
                     render={({ field }) => (
                         <Input
                             {...field}
@@ -188,7 +137,7 @@ const TaskForm = () => {
                 <Controller
                     name="endDate"
                     control={control}
-                    defaultValue=""
+                    defaultValue={task?.endDate ?? ''}
                     render={({ field }) => (
                         <Input
                             {...field}
@@ -206,7 +155,7 @@ const TaskForm = () => {
                 <Controller
                     name="deliveryDate"
                     control={control}
-                    defaultValue=""
+                    defaultValue={task?.deliveryDate ?? ''}
                     render={({ field }) => (
                         <Input
                             {...field}
