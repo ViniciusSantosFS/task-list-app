@@ -53,7 +53,12 @@ const TaskForm = () => {
             data.endDate,
             data.deliveryDate
         )
-        dispatch({ type: CreateTaskActionTypes.CREATE_TASK, payload: task })
+
+        dispatch({
+            type: CreateTaskActionTypes.CREATE_TASK,
+            payload: task,
+            navigate,
+        })
     }
 
     const onRegisterUser = (data: CreateUser) => {
