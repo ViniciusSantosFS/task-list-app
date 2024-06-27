@@ -6,22 +6,12 @@ import { CreateTaskActionTypes } from './action-types'
 import { InitialState } from 'src/redux/types'
 import { CreateUser } from 'src/dto/create-user'
 import { Task } from 'src/entity/task'
+import { CreateUserActionTypes } from '../create-user/action-types'
 
 interface CreateTaskAction {
     type: string
     payload: CreateTask
     navigate: (path: string) => void
-}
-
-const isBeginDateBiggerThanOtherDates = (
-    beginDate: string,
-    endDate: string,
-    deliveryDate: string
-) => {
-    return (
-        isBefore(new Date(endDate), new Date(beginDate)) ||
-        isBefore(new Date(deliveryDate), new Date(beginDate))
-    )
 }
 
 export function* createTask({ payload, navigate }: CreateTaskAction) {
@@ -44,13 +34,10 @@ export function* createTask({ payload, navigate }: CreateTaskAction) {
             (state: InitialState) => state.users
         )
 
-        const user = users.find(({ email }) => email === payload.owner)
+        const owner = users.find(({ email }) => email === payload.owner)
 
-        if (!user) {
-            yield put({
-                type: CreateTaskActionTypes.CREATE_TASK_FAILURE,
-                payload: {},
-            })
+        if (!owner) {
+            yield registerUser({ payload, navigate })
             return
         }
 
@@ -58,7 +45,7 @@ export function* createTask({ payload, navigate }: CreateTaskAction) {
             (state: InitialState) => state.tasks
         )
 
-        const usersTask = tasks.filter((task) => task.owner === user.email)
+        const usersTask = tasks.filter((task) => task.owner === owner.email)
 
         const hasTaskWithDateConflict = usersTask.find((task) => {
             return (
@@ -81,13 +68,44 @@ export function* createTask({ payload, navigate }: CreateTaskAction) {
             payload: new Task({
                 ...payload,
                 id: uuid.v4().toString(),
-                ownerName: user.name,
+                ownerName: owner.name,
             }),
         })
         return navigate('/')
     } catch (error) {
         console.log('ERROR', error)
     }
+}
+
+const isBeginDateBiggerThanOtherDates = (
+    beginDate: string,
+    endDate: string,
+    deliveryDate: string
+) => {
+    return (
+        isBefore(new Date(endDate), new Date(beginDate)) ||
+        isBefore(new Date(deliveryDate), new Date(beginDate))
+    )
+}
+
+function* registerUser({ payload, navigate }: Omit<CreateTaskAction, 'type'>) {
+    const [name] = payload.owner.split('@')
+    const user = new CreateUser(name, payload.owner)
+
+    yield put({
+        type: CreateUserActionTypes.CREATE_USER,
+        payload: user,
+    })
+
+    yield put({
+        type: CreateTaskActionTypes.CREATE_TASK_SUCCESS,
+        payload: new Task({
+            ...payload,
+            id: uuid.v4().toString(),
+            ownerName: user.name,
+        }),
+    })
+    return navigate('/')
 }
 
 export function* watchCreateTask() {
