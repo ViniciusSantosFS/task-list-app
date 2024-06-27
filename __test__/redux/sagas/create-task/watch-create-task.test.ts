@@ -50,7 +50,7 @@ describe('#createTask', () => {
         ])
     })
 
-    it.only('Should fail when task has the same dates as another task for the same user', async () => {
+    it('Should fail when task has the same dates as another task for the same user', async () => {
         const email = faker.internet.email()
         const dispatchedActions: AnyAction[] = []
         const navigate = jest.fn()
