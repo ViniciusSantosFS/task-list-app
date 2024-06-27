@@ -23,4 +23,6 @@ export const FilterTitle = styled(Title)`
 
 export const FilterDateContainer = styled(Box)`
     width: 100%;
+    align-items: center;
+    justify-content: center;
 `
