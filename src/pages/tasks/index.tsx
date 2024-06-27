@@ -6,16 +6,12 @@ import AddButton from 'src/components/add-button'
 import Task from 'src/components/task'
 import { Task as EntityTask } from 'src/entity/task'
 import { InitialState } from 'src/redux/types'
-import { Box, Button, TextField, Toolbar } from '@mui/material'
-import {
-    Title,
-    FilterTitle,
-    Container,
-    FilterDateContainer,
-} from './tasks.styles'
+import { Box, Toolbar } from '@mui/material'
+import { Title, Container } from './tasks.styles'
 import { UpdateTaskActionTypes } from 'src/redux/sagas/update-task/action-types'
-import { Controller, useForm } from 'react-hook-form'
 import { isAfter, isBefore } from 'date-fns'
+import FilterDateHeader from 'src/components/filter-date-header'
+import { DateForm } from './types'
 
 function Tasks() {
     const { t } = useTranslation()
@@ -24,8 +20,6 @@ function Tasks() {
 
     const tasks = useSelector((state: InitialState) => state.tasks)
     const [localTasks, setLocalTasks] = useState<EntityTask[]>(tasks)
-
-    const { control, handleSubmit } = useForm()
 
     const onChangeCheckBox = (task: EntityTask, checked: boolean) => {
         dispatch({
@@ -43,11 +37,6 @@ function Tasks() {
             type: UpdateTaskActionTypes.DELETE_TASK,
             payload: taskId,
         })
-    }
-
-    interface DateForm {
-        beginDate: string
-        endDate: string
     }
 
     const onSubmit = (data: DateForm) => {
@@ -80,64 +69,10 @@ function Tasks() {
                 {t('tasksTitle')}
             </Title>
             <Toolbar sx={{ marginTop: 2 }}>
-                <FilterDateContainer
-                    component="form"
-                    onSubmit={handleSubmit((data) =>
-                        onSubmit(data as DateForm)
-                    )}
-                >
-                    <FilterTitle>{t('filterByDate')}</FilterTitle>
-
-                    <Controller
-                        name="beginDate"
-                        control={control}
-                        defaultValue=""
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                label={t('taskForm.beginDate')}
-                                variant="outlined"
-                                type="date"
-                                InputLabelProps={{ shrink: true }}
-                                sx={{ marginRight: 2 }}
-                            />
-                        )}
-                    />
-
-                    <Controller
-                        name="endDate"
-                        control={control}
-                        defaultValue=""
-                        render={({ field }) => (
-                            <TextField
-                                {...field}
-                                label={t('taskForm.endDate')}
-                                variant="outlined"
-                                type="date"
-                                InputLabelProps={{ shrink: true }}
-                                sx={{ marginRight: 2 }}
-                            />
-                        )}
-                    />
-
-                    <Box>
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            sx={{ mt: 2 }}
-                        >
-                            {t('filter')}
-                        </Button>
-
-                        <Button
-                            variant="text"
-                            sx={{ mt: 2, ml: 14 }}
-                            onClick={() => setLocalTasks(tasks)}
-                        >
-                            {t('clearFilter')}
-                        </Button>
-                    </Box>
-                </FilterDateContainer>
+                <FilterDateHeader
+                    onSubmit={onSubmit}
+                    clearFilter={() => setLocalTasks(tasks)}
+                />
 
                 <AddButton
                     title={t('addbutton')}

@@ -12,17 +12,3 @@ export const Title = styled(Typography)`
     font-weight: bold;
     flex-grow: 1;
 `
-
-export const FilterTitle = styled(Title)`
-    text-align: start;
-    color: ${({ theme }) => theme.palette.primary.main};
-    font-weight: bold;
-    flex-grow: 1;
-    margin-bottom: 8px;
-`
-
-export const FilterDateContainer = styled(Box)`
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-`
