@@ -5,6 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import { Container, Description, Title } from './task.styles'
 import { Task as EntityTask } from 'src/entity/task'
 import { useTranslation } from 'react-i18next'
+import { format } from 'date-fns'
 
 interface Props {
     task: EntityTask
@@ -25,6 +26,10 @@ const Task = ({
         onChangeCheckBox(!task.done)
     }
 
+    const formatToBrazilianDatePattern = (date: string) => {
+        return format(new Date(date), 'dd/MM/yyyy')
+    }
+
     return (
         <Container>
             <Checkbox
@@ -38,10 +43,13 @@ const Task = ({
                     {task.title}
                 </Title>
                 <Description checked={task.done}>
-                    {task.ownerName} / {task.beginDate} - {task.endDate}
+                    {task.ownerName} -{' '}
+                    {formatToBrazilianDatePattern(task.beginDate)} -{' '}
+                    {formatToBrazilianDatePattern(task.endDate)}
                 </Description>
                 <Description checked={task.done}>
-                    {t('delivery')}: {task.deliveryDate}
+                    {t('delivery')}:{' '}
+                    {formatToBrazilianDatePattern(task.deliveryDate)}
                 </Description>
                 <Description checked={task.done}>
                     {task.description}
