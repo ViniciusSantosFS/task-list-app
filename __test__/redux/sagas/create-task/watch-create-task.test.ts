@@ -101,6 +101,7 @@ describe('#createTask', () => {
         const id = '123'
         jest.spyOn(uuid, 'v4').mockReturnValue(id)
 
+        const navigate = jest.fn()
         const email = faker.internet.email()
         const dispatchedActions: AnyAction[] = []
 
@@ -125,6 +126,7 @@ describe('#createTask', () => {
 
         await runSaga(fakeStore, createTask as Saga, {
             payload: mockTask,
+            navigate,
         }).toPromise()
 
         const expectedTask = new Task({
@@ -139,5 +141,6 @@ describe('#createTask', () => {
                 payload: expectedTask,
             },
         ])
+        expect(navigate).toHaveBeenCalledWith('/')
     })
 })

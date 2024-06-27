@@ -10,6 +10,7 @@ import { Task } from 'src/entity/task'
 interface CreateTaskAction {
     type: string
     payload: CreateTask
+    navigate: (path: string) => void
 }
 
 const isBeginDateBiggerThanOtherDates = (
@@ -17,10 +18,13 @@ const isBeginDateBiggerThanOtherDates = (
     endDate: string,
     deliveryDate: string
 ) => {
-    return isBefore(endDate, beginDate) || isBefore(deliveryDate, beginDate)
+    return (
+        isBefore(new Date(endDate), new Date(beginDate)) ||
+        isBefore(new Date(deliveryDate), new Date(beginDate))
+    )
 }
 
-export function* createTask({ payload }: CreateTaskAction) {
+export function* createTask({ payload, navigate }: CreateTaskAction) {
     try {
         if (
             isBeginDateBiggerThanOtherDates(
@@ -80,6 +84,7 @@ export function* createTask({ payload }: CreateTaskAction) {
                 ownerName: user.name,
             }),
         })
+        return navigate('/')
     } catch (error) {
         console.log('ERROR', error)
     }
