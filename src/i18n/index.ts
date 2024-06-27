@@ -11,6 +11,8 @@ const resources = {
             warning: 'ATENÇÃO',
             updateTask: 'Atualizar tarefa',
             update: 'ATUALIZAR',
+            filter: 'FILTRAR',
+            clearFilter: 'LIMPAR FILTRO',
             defaultErrorMessage:
                 'Opss algo não saiu como o esperado, caso o erro persista entre em contato com o nosso suporte',
             taskForm: {
