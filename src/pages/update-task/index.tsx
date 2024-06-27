@@ -7,8 +7,13 @@ import { InitialState } from 'src/redux/types'
 import { UpdateTaskActionTypes } from 'src/redux/sagas/update-task/action-types'
 import { Task } from 'src/entity/task'
 import ErrorAlert from 'src/components/error-alert'
+import { ApplicationError } from 'src/errors/application-error'
+import { SetApplicationErrorActionTypes } from 'src/redux/sagas/set-application-error/action-types'
+import RegisterTaskHeader from 'src/components/register-task-header'
+import { useTranslation } from 'react-i18next'
 
 function UpdateTask() {
+    const { t } = useTranslation()
     const { id } = useParams()
 
     const dispatch = useDispatch()
@@ -23,20 +28,37 @@ function UpdateTask() {
         if (!id) return
 
         const owner = users.find((user) => user.email === task.owner)
-        if (!owner) return
+        if (!owner) {
+            dispatch({
+                type: SetApplicationErrorActionTypes.SET_APPLICATION_ERROR,
+                payload: new ApplicationError('createUser.errors.userNotFound'),
+            })
+            return
+        }
 
-        const taskEntity = new Task({ ...task, id, ownerName: owner.name })
+        const taskEntity = new Task({
+            ...task,
+            id,
+            ownerName: owner.name,
+            ownerEmail: owner.email,
+        })
         dispatch({
             type: UpdateTaskActionTypes.UPDATE_TASK,
             payload: taskEntity,
         })
+
         navigate('/')
     }
 
     return (
         <>
             <ErrorAlert />
-            <TaskForm onSubmit={onSubmit} task={findTaskById()} />
+            <RegisterTaskHeader title={t('updateTask')} />
+            <TaskForm
+                onSubmit={onSubmit}
+                task={findTaskById()}
+                submitButtonTitle={t('update')}
+            />
         </>
     )
 }

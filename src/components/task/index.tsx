@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Box, Checkbox, IconButton } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -20,11 +20,9 @@ const Task = ({
     onClickDelete,
 }: Props) => {
     const { t } = useTranslation()
-    const [checked, setChecked] = useState(false)
 
-    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setChecked(event.target.checked)
-        onChangeCheckBox(event.target.checked)
+    const onChange = () => {
+        onChangeCheckBox(!task.done)
     }
 
     return (
@@ -32,20 +30,22 @@ const Task = ({
             <Checkbox
                 color="primary"
                 onChange={onChange}
-                value={checked}
+                checked={task.done}
                 sx={{ marginRight: 4 }}
             />
             <Box flex={1}>
-                <Title variant="h6" flexGrow={1} checked={checked}>
+                <Title variant="h6" flexGrow={1} checked={task.done}>
                     {task.title}
                 </Title>
-                <Description checked={checked}>
+                <Description checked={task.done}>
                     {task.ownerName} / {task.beginDate} - {task.endDate}
                 </Description>
-                <Description checked={checked}>
+                <Description checked={task.done}>
                     {t('delivery')}: {task.deliveryDate}
                 </Description>
-                <Description checked={checked}>{task.description}</Description>
+                <Description checked={task.done}>
+                    {task.description}
+                </Description>
             </Box>
             <Box
                 sx={{

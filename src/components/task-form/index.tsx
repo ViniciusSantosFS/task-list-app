@@ -12,9 +12,10 @@ import { Task } from 'src/entity/task'
 interface Props {
     task?: Task
     onSubmit: (task: CreateTask) => void
+    submitButtonTitle: string
 }
 
-const TaskForm = ({ task, onSubmit }: Props) => {
+const TaskForm = ({ task, onSubmit, submitButtonTitle }: Props) => {
     const { t } = useTranslation()
     const translate = (key: string) => t(`taskForm.${key}`)
 
@@ -73,8 +74,10 @@ const TaskForm = ({ task, onSubmit }: Props) => {
                         >
                             <MenuItem value="Feature">Feature</MenuItem>
                             <MenuItem value="Bug">Bug</MenuItem>
-                            <MenuItem value="Task">Documentation</MenuItem>
-                            <MenuItem value="Task">Question</MenuItem>
+                            <MenuItem value="Documentation">
+                                Documentation
+                            </MenuItem>
+                            <MenuItem value="Question">Question</MenuItem>
                         </Input>
                     )}
                 />
@@ -173,7 +176,7 @@ const TaskForm = ({ task, onSubmit }: Props) => {
                     )}
                 />
                 <Button type="submit" variant="contained" color="primary">
-                    {translate('submit')}
+                    {submitButtonTitle}
                 </Button>
             </FormContainer>
         </>

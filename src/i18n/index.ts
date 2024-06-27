@@ -9,6 +9,8 @@ const resources = {
             filterByDate: 'Filtrar por data',
             delivery: 'Prazo',
             warning: 'ATENÇÃO',
+            updateTask: 'Atualizar tarefa',
+            update: 'ATUALIZAR',
             defaultErrorMessage:
                 'Opss algo não saiu como o esperado, caso o erro persista entre em contato com o nosso suporte',
             taskForm: {
@@ -36,12 +38,14 @@ const resources = {
                     invalidDates:
                         'Data de inicio não pode ser menor que data de término ou data de conclusão',
                     dateConflict:
-                        'Esse usuáiro já está com uma tarefa cadastrada para essas datas',
+                        'Esse usuário já está com uma tarefa cadastrada para essas datas',
                 },
             },
             createUser: {
                 errors: {
                     emailAlreadyRegistered: 'Esse email já foi registrado',
+                    userNotFound:
+                        'Esse email não está vinculado a nenhum usuário',
                 },
             },
         },

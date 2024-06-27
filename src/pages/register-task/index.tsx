@@ -6,8 +6,10 @@ import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { CreateTask } from 'src/dto/create-task'
 import ErrorAlert from 'src/components/error-alert'
+import { useTranslation } from 'react-i18next'
 
 function RegisterTask() {
+    const { t } = useTranslation()
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -31,8 +33,11 @@ function RegisterTask() {
     return (
         <>
             <ErrorAlert />
-            <RegisterTaskHeader />
-            <TaskForm onSubmit={onSubmit} />
+            <RegisterTaskHeader title={t('taskForm.register')} />
+            <TaskForm
+                onSubmit={onSubmit}
+                submitButtonTitle={t('taskForm.submit')}
+            />
         </>
     )
 }

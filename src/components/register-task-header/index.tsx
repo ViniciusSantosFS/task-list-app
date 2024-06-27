@@ -1,5 +1,4 @@
 import { useDispatch } from 'react-redux'
-import { useTranslation } from 'react-i18next'
 import { Button } from '@mui/material'
 import { FormHeaderContainer, Title } from './register-task-header.styles'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
@@ -10,9 +9,11 @@ import { CreateUser } from 'src/dto/create-user'
 import { CreateUserActionTypes } from 'src/redux/sagas/create-user/action-types'
 import { useNavigate } from 'react-router-dom'
 
-const RegisterTaskHeader = () => {
-    const { t } = useTranslation()
-    const translate = (key: string) => t(`taskForm.${key}`)
+interface Props {
+    title: string
+}
+
+const RegisterTaskHeader = ({ title }: Props) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -35,7 +36,7 @@ const RegisterTaskHeader = () => {
                     <ArrowBackIcon color={'primary'} fontWeight="bold" />
                 </Button>
                 <Title variant="h5" color={'primary'}>
-                    {translate('register')}
+                    {title}
                 </Title>
                 <Button onClick={() => setIsModalOpen(true)}>
                     <AddIcon />
