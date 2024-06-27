@@ -8,17 +8,23 @@ import { useTranslation } from 'react-i18next'
 
 interface Props {
     task: EntityTask
-    onChangeCheckBox: () => void
+    onChangeCheckBox: (checked: boolean) => void
     onClickEdit: () => void
     onClickDelete: () => void
 }
 
-const Task = ({ task, onClickEdit, onClickDelete }: Props) => {
+const Task = ({
+    task,
+    onChangeCheckBox,
+    onClickEdit,
+    onClickDelete,
+}: Props) => {
     const { t } = useTranslation()
     const [checked, setChecked] = useState(false)
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setChecked(event.target.checked)
+        onChangeCheckBox(event.target.checked)
     }
 
     return (

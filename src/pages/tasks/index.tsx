@@ -1,9 +1,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 import AddButton from 'src/components/add-button'
 import Task from 'src/components/task'
+import { Task as EntityTask } from 'src/entity/task'
 import { InitialState } from 'src/redux/types'
 import { Box, TextField, Toolbar } from '@mui/material'
 import {
@@ -12,20 +13,40 @@ import {
     Container,
     FilterDateContainer,
 } from './tasks.styles'
+import { UpdateTaskActionTypes } from 'src/redux/sagas/update-task/action-types'
 
 function Tasks() {
     const { t } = useTranslation()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const tasks = useSelector((state: InitialState) => state.tasks)
+
+    const onChangeCheckBox = (task: EntityTask, checked: boolean) => {
+        dispatch({
+            type: UpdateTaskActionTypes.UPDATE_TASK,
+            payload: { ...task, done: checked },
+        })
+    }
+
+    const onClickEdit = (taskId: string) => {
+        navigate(`/tasks/update/${taskId}`)
+    }
+
+    const onClickDelete = (taskId: string) => {
+        dispatch({
+            type: UpdateTaskActionTypes.DELETE_TASK,
+            payload: taskId,
+        })
+    }
 
     const TaskList = () => {
         return tasks.map((task) => (
             <Task
                 task={task}
-                onChangeCheckBox={() => {}}
-                onClickEdit={() => {}}
-                onClickDelete={() => {}}
+                onChangeCheckBox={(checked) => onChangeCheckBox(task, checked)}
+                onClickEdit={() => onClickEdit(task.id)}
+                onClickDelete={() => onClickDelete(task.id)}
             />
         ))
     }
