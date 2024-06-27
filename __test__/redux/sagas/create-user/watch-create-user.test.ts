@@ -1,8 +1,19 @@
 import { faker } from '@faker-js/faker'
 import { AnyAction, Saga, runSaga } from 'redux-saga'
 import { CreateUser } from 'src/dto/create-user'
+import { ApplicationError } from 'src/errors/application-error'
 import { CreateUserActionTypes } from 'src/redux/sagas/create-user/action-types'
 import { createUser } from 'src/redux/sagas/create-user/watch-create-user'
+import { SetApplicationErrorActionTypes } from 'src/redux/sagas/set-application-error/action-types'
+
+jest.mock('src/i18n', () => ({
+    __esModule: true,
+    use: () => {},
+    init: () => {},
+    default: {
+        t: (key: string) => key,
+    },
+}))
 
 describe('#createTask', () => {
     it('Should fail when user email is already registered', async () => {
@@ -28,7 +39,12 @@ describe('#createTask', () => {
         }).toPromise()
 
         expect(dispatchedActions).toEqual([
-            { type: CreateUserActionTypes.CREATE_USER_FAILURE, payload: {} },
+            {
+                type: SetApplicationErrorActionTypes.SET_APPLICATION_ERROR,
+                payload: new ApplicationError(
+                    'createUser.errors.emailAlreadyRegistered'
+                ),
+            },
         ])
     })
 

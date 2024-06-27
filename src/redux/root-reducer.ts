@@ -3,13 +3,25 @@ import { InitialState } from './types'
 import { CreateTaskActionTypes } from './sagas/create-task/action-types'
 import { CreateUserActionTypes } from './sagas/create-user/action-types'
 import { UpdateTaskActionTypes } from './sagas/update-task/action-types'
+import { SetApplicationErrorActionTypes } from './sagas/set-application-error/action-types'
 
 const initialState: InitialState = {
     tasks: [],
     users: [],
+    error: null,
 }
 
 const rootReducer = (state = initialState, action: AnyAction) => {
+    if (
+        action.type ===
+        SetApplicationErrorActionTypes.SET_APPLICATION_ERROR_SUCCESS
+    ) {
+        return {
+            ...state,
+            error: action.payload,
+        }
+    }
+
     if (action.type === CreateTaskActionTypes.CREATE_TASK_SUCCESS) {
         return {
             ...state,

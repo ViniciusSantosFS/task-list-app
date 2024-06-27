@@ -5,6 +5,7 @@ import TaskForm from 'src/components/task-form'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { CreateTask } from 'src/dto/create-task'
+import ErrorAlert from 'src/components/error-alert'
 
 function RegisterTask() {
     const dispatch = useDispatch()
@@ -29,6 +30,7 @@ function RegisterTask() {
     }
     return (
         <>
+            <ErrorAlert />
             <RegisterTaskHeader />
             <TaskForm onSubmit={onSubmit} />
         </>

@@ -6,6 +6,7 @@ import { CreateTask } from 'src/dto/create-task'
 import { InitialState } from 'src/redux/types'
 import { UpdateTaskActionTypes } from 'src/redux/sagas/update-task/action-types'
 import { Task } from 'src/entity/task'
+import ErrorAlert from 'src/components/error-alert'
 
 function UpdateTask() {
     const { id } = useParams()
@@ -34,6 +35,7 @@ function UpdateTask() {
 
     return (
         <>
+            <ErrorAlert />
             <TaskForm onSubmit={onSubmit} task={findTaskById()} />
         </>
     )

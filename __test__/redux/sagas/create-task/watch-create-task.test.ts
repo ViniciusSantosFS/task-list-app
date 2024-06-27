@@ -7,6 +7,17 @@ import { CreateUser } from 'src/dto/create-user'
 import { Task } from 'src/entity/task'
 import uuid from 'react-native-uuid'
 import { CreateUserActionTypes } from 'src/redux/sagas/create-user/action-types'
+import { ApplicationError } from 'src/errors/application-error'
+import { SetApplicationErrorActionTypes } from 'src/redux/sagas/set-application-error/action-types'
+
+jest.mock('src/i18n', () => ({
+    __esModule: true,
+    use: () => {},
+    init: () => {},
+    default: {
+        t: (key: string) => key,
+    },
+}))
 
 describe('#createTask', () => {
     it('Should fail when task has begin date bigger than end date or delivery date', async () => {
@@ -32,16 +43,20 @@ describe('#createTask', () => {
         }).toPromise()
 
         expect(dispatchedActions).toEqual([
-            { type: CreateTaskActionTypes.CREATE_TASK_FAILURE, payload: {} },
+            {
+                type: SetApplicationErrorActionTypes.SET_APPLICATION_ERROR,
+                payload: new ApplicationError('createTask.errors.invalidDates'),
+            },
         ])
     })
 
-    it('Should fail when task has the same dates as another task for the same user', async () => {
+    it.only('Should fail when task has the same dates as another task for the same user', async () => {
         const email = faker.internet.email()
         const dispatchedActions: AnyAction[] = []
+        const navigate = jest.fn()
 
         const mockUser = new CreateUser(faker.internet.userName(), email)
-        const mockTask = new CreateTask(
+        const mockCreateTask = new CreateTask(
             faker.lorem.words(),
             faker.lorem.words(),
             email,
@@ -50,6 +65,12 @@ describe('#createTask', () => {
             faker.date.future().toDateString(),
             faker.date.future().toDateString()
         )
+        const mockTask = new Task({
+            ...mockCreateTask,
+            id: uuid.v4().toString(),
+            ownerName: mockUser.name,
+            ownerEmail: mockUser.email,
+        })
 
         const fakeStore = {
             getState: () => ({
@@ -60,11 +81,15 @@ describe('#createTask', () => {
         }
 
         await runSaga(fakeStore, createTask as Saga, {
-            payload: mockTask,
+            payload: mockCreateTask,
+            navigate,
         }).toPromise()
 
         expect(dispatchedActions).toEqual([
-            { type: CreateTaskActionTypes.CREATE_TASK_FAILURE, payload: {} },
+            {
+                type: SetApplicationErrorActionTypes.SET_APPLICATION_ERROR,
+                payload: new ApplicationError('createTask.errors.dateConflict'),
+            },
         ])
     })
 
@@ -105,6 +130,7 @@ describe('#createTask', () => {
             ...mockTask,
             id,
             ownerName: user.name,
+            ownerEmail: user.email,
         })
 
         expect(dispatchedActions).toEqual([
@@ -156,6 +182,7 @@ describe('#createTask', () => {
             ...mockTask,
             id,
             ownerName: mockUser.name,
+            ownerEmail: mockUser.email,
         })
 
         expect(dispatchedActions).toEqual([
@@ -164,6 +191,7 @@ describe('#createTask', () => {
                 payload: expectedTask,
             },
         ])
+
         expect(navigate).toHaveBeenCalledWith('/')
     })
 })

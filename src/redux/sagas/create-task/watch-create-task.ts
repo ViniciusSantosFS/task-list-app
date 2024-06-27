@@ -9,6 +9,8 @@ import { Task } from 'src/entity/task'
 import { CreateTaskAction } from './types'
 import { registerUser } from '../register-user-by-email'
 import { hasSomeTaskWithDateConflict } from '../has-some-task-with-date-conflict'
+import { ApplicationError } from 'src/errors/application-error'
+import { SetApplicationErrorActionTypes } from '../set-application-error/action-types'
 
 export function* createTask({ payload, navigate }: CreateTaskAction) {
     if (
@@ -19,8 +21,8 @@ export function* createTask({ payload, navigate }: CreateTaskAction) {
         )
     ) {
         yield put({
-            type: CreateTaskActionTypes.CREATE_TASK_FAILURE,
-            payload: {},
+            type: SetApplicationErrorActionTypes.SET_APPLICATION_ERROR,
+            payload: new ApplicationError('createTask.errors.invalidDates'),
         })
         return
     }
@@ -41,8 +43,8 @@ export function* createTask({ payload, navigate }: CreateTaskAction) {
 
     if (hasTaskWithDateConflict) {
         yield put({
-            type: CreateTaskActionTypes.CREATE_TASK_FAILURE,
-            payload: {},
+            type: SetApplicationErrorActionTypes.SET_APPLICATION_ERROR,
+            payload: new ApplicationError('createTask.errors.dateConflict'),
         })
         return
     }
@@ -53,6 +55,7 @@ export function* createTask({ payload, navigate }: CreateTaskAction) {
             ...payload,
             id: uuid.v4().toString(),
             ownerName: owner.name,
+            ownerEmail: owner.email,
         }),
     })
     return navigate('/')

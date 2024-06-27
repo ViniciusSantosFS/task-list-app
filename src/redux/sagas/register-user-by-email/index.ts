@@ -24,7 +24,9 @@ export function* registerUser({
             ...payload,
             id: uuid.v4().toString(),
             ownerName: user.name,
+            ownerEmail: user.email,
         }),
     })
+
     return navigate('/')
 }

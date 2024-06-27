@@ -3,6 +3,7 @@ interface ITask {
     title: string
     type: string
     ownerName: string
+    ownerEmail: string
     description: string
     beginDate: string
     endDate: string
@@ -14,6 +15,7 @@ export class Task {
     title: string
     type: string
     ownerName: string
+    ownerEmail: string
     description: string
     beginDate: string
     endDate: string
@@ -25,6 +27,7 @@ export class Task {
         title,
         type,
         ownerName,
+        ownerEmail,
         description,
         beginDate,
         endDate,
@@ -34,6 +37,7 @@ export class Task {
         this.title = title
         this.type = type
         this.ownerName = ownerName
+        this.ownerEmail = ownerEmail
         this.description = description
         this.beginDate = beginDate
         this.endDate = endDate
