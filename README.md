@@ -1,6 +1,4 @@
-# Project Name
-
-### Task list App
+# Task list App
 
 ## Installation
 
@@ -8,7 +6,7 @@
 yarn install
 ```
 
-To start in dev mode, run the following command:
+## Running in dev mode:
 
 ```bash
 yarn dev
