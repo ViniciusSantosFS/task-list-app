@@ -49,9 +49,6 @@ function Tasks() {
         const beginDate = new Date(data.beginDate).toISOString()
         const endDate = new Date(data.endDate).toISOString()
 
-        console.log('beginDate', beginDate)
-        console.log('beginDate', endDate)
-
         const filteredTasks = localTasks.filter((task) => {
             const isAfterOrEqual =
                 isAfter(parseISO(task.beginDate).toISOString(), beginDate) ||
