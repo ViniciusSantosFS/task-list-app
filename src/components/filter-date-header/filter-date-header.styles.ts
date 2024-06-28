@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Button, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 
 export const Title = styled(Typography)`
@@ -20,4 +20,14 @@ export const FilterDateContainer = styled(Box)`
     width: 100%;
     align-items: center;
     justify-content: center;
+`
+
+export const ClearFilterContainer = styled(Button)`
+    margin-top: 24px;
+    margin-left: 22px;
+
+    @media (max-width: 600px), (max-width: 960px) {
+        margin-top: 10px;
+        margin-left: 0;
+    }
 `

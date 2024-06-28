@@ -1,6 +1,10 @@
 import React from 'react'
 import { Box, Button, TextField } from '@mui/material'
-import { FilterTitle, FilterDateContainer } from './filter-date-header.styles'
+import {
+    FilterTitle,
+    FilterDateContainer,
+    ClearFilterContainer,
+} from './filter-date-header.styles'
 import { Controller } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -59,13 +63,9 @@ const FilterDateHeader = ({ onSubmit, clearFilter }: Props) => {
                     {t('filter')}
                 </Button>
 
-                <Button
-                    variant="text"
-                    sx={{ mt: 2, ml: 14 }}
-                    onClick={clearFilter}
-                >
+                <ClearFilterContainer variant="text" onClick={clearFilter}>
                     {t('clearFilter')}
-                </Button>
+                </ClearFilterContainer>
             </Box>
         </FilterDateContainer>
     )

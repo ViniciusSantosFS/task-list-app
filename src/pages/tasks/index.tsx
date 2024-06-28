@@ -121,7 +121,7 @@ function Tasks() {
                 <AddButton
                     title={t('addbutton')}
                     onClick={() => navigate('/tasks/register')}
-                    sx={{ minWidth: 200 }}
+                    sx={{ width: 300 }}
                 />
             </Toolbar>
 

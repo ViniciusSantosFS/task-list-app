@@ -7,6 +7,7 @@ export const Container = styled(Box)`
 `
 
 export const Title = styled(Typography)`
+    margin-top: 10px;
     text-align: center;
     color: ${({ theme }) => theme.palette.primary.main};
     font-weight: bold;

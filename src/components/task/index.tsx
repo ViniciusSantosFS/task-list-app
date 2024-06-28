@@ -52,7 +52,7 @@ const Task = ({
                     {formatToBrazilianDatePattern(task.deliveryDate)}
                 </Description>
                 <Description checked={task.done}>
-                    {task.description}
+                    {task.description.substring(0, 30)}...
                 </Description>
             </Box>
             <Box
