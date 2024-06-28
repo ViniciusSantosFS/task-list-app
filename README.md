@@ -1,6 +1,6 @@
 # Project Name
 
-### Tasks list App
+### Task list App
 
 ## Installation
 
