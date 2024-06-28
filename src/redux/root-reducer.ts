@@ -4,6 +4,7 @@ import { CreateTaskActionTypes } from './sagas/create-task/action-types'
 import { CreateUserActionTypes } from './sagas/create-user/action-types'
 import { UpdateTaskActionTypes } from './sagas/update-task/action-types'
 import { SetApplicationErrorActionTypes } from './sagas/set-application-error/action-types'
+import { GetRandomTodoListActionTypes } from './sagas/get-random-todo-list/action-types'
 
 const initialState: InitialState = {
     tasks: [],
@@ -27,6 +28,13 @@ const rootReducer = (state = initialState, action: AnyAction) => {
             ...state,
             tasks: [...state.tasks, action.payload],
         }
+    }
+
+    if (
+        action.type ===
+        GetRandomTodoListActionTypes.GET_RANDOM_TODO_LIST_SUCCESS
+    ) {
+        return { ...state, tasks: [...state.tasks, ...action.payload] }
     }
 
     if (action.type === CreateUserActionTypes.CREATE_USER_SUCCESS) {

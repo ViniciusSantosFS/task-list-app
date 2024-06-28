@@ -1,0 +1,4 @@
+export const GetRandomTodoListActionTypes = {
+    GET_RANDOM_TODO_LIST: 'GET_RANDOM_TODO_LIST',
+    GET_RANDOM_TODO_LIST_SUCCESS: 'GET_RANDOM_TODO_LIST_SUCCESS',
+}

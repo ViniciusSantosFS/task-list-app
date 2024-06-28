@@ -12,3 +12,12 @@ export const Title = styled(Typography)`
     font-weight: bold;
     flex-grow: 1;
 `
+
+export const PaginationButtonsContainer = styled(Box)`
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+`
