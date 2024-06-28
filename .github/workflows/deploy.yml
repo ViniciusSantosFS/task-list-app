@@ -34,7 +34,6 @@ jobs:
               with:
                   cmd: install
             - name: Build
-              run: npm run build
               uses: borales/actions-yarn@v4
               with:
                   cmd: build
