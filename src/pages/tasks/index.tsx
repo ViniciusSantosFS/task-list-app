@@ -61,6 +61,7 @@ function Tasks() {
         })
 
         setLocalTasks(filteredTasks)
+        setCurrentPage(1)
     }
 
     const TaskList = () => {
@@ -110,7 +111,10 @@ function Tasks() {
             <Toolbar sx={{ marginTop: 2 }}>
                 <FilterDateHeader
                     onSubmit={onSubmit}
-                    clearFilter={() => setLocalTasks(tasks)}
+                    clearFilter={() => {
+                        setLocalTasks(tasks)
+                        setCurrentPage(1)
+                    }}
                 />
 
                 <AddButton
