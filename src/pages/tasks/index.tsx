@@ -9,7 +9,7 @@ import { InitialState } from 'src/redux/types'
 import { Box, Button, Toolbar } from '@mui/material'
 import { Title, Container, PaginationButtonsContainer } from './tasks.styles'
 import { UpdateTaskActionTypes } from 'src/redux/sagas/update-task/action-types'
-import { isAfter, isBefore, isEqual, parseISO } from 'date-fns'
+import { isAfter, isBefore, isEqual } from 'date-fns'
 import FilterDateHeader from 'src/components/filter-date-header'
 import { DateForm } from './types'
 import { GetRandomTodoListActionTypes } from 'src/redux/sagas/get-random-todo-list/action-types'
@@ -49,13 +49,14 @@ function Tasks() {
         const beginDate = new Date(data.beginDate).toISOString()
         const endDate = new Date(data.endDate).toISOString()
 
-        const filteredTasks = localTasks.filter((task) => {
+        const filteredTasks = tasks.filter((task) => {
             const isAfterOrEqual =
-                isAfter(parseISO(task.beginDate).toISOString(), beginDate) ||
-                isEqual(parseISO(task.beginDate).toISOString(), beginDate)
+                isAfter(new Date(task.beginDate).toISOString(), beginDate) ||
+                isEqual(new Date(task.beginDate), beginDate)
+
             const isBeforeOrEqual =
-                isBefore(parseISO(task.endDate).toISOString(), endDate) ||
-                isEqual(parseISO(task.endDate).toISOString(), endDate)
+                isBefore(new Date(task.endDate).toISOString(), endDate) ||
+                isEqual(new Date(task.endDate).toISOString(), endDate)
 
             return isAfterOrEqual && isBeforeOrEqual
         })
